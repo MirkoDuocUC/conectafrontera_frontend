@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ConectaFrontera - Iniciar Sesión Viajero</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #fff; }
+    .hero-bg { background: #428bca; color: #fff; padding: 4rem 0 3rem 0; min-height: 60vh; }
+    .hero-title { font-size: 2.5rem; font-weight: 700; }
+    .login-card {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+      max-width: 350px;
+      margin: 0 auto;
+      padding: 2rem 2rem 1.5rem 2rem;
+    }
+    .form-control {
+      border-radius: 1rem;
+      background: #f8fafc;
+      border: 1px solid #e7eaf3;
+      margin-bottom: 1rem;
+    }
+    .btn-login {
+      border-radius: 1.5rem;
+      font-weight: 600;
+      width: 100%;
+      background: #222;
+      color: #fff;
+    }
+    .btn-login:hover {
+      background: #333;
+      color: #fff;
+    }
+    .footer-bg { background: #f8f9fa; }
+    .footer-logo { max-width: 120px; }
+    .footer-icons a { color: #333; margin-right: 10px; font-size: 1.3rem; }
+    .footer-section-title { font-weight: 600; margin-bottom: 0.5rem; }
+    .footer-list { list-style: none; padding-left: 0; }
+    .footer-list li { margin-bottom: 0.3rem; }
+    .navbar-brand { font-weight: 700; }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 1.7rem; }
+      .login-card { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="home.html">ConectaFrontera</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+          <li class="nav-item"><a class="nav-link" href="home.html#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="home.html#servicios">Servicios</a></li>
+          <li class="nav-item"><a class="nav-link" href="home.html#tramites">Trámites</a></li>
+          <li class="nav-item"><a class="nav-link" href="home.html#estadisticas">Estadísticas</a></li>
+          <!-- Botón Iniciar eliminado -->
+          <li class="nav-item"><a class="btn btn-dark btn-register ms-2 px-3" href="registro.html">Registrar</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero/Login -->
+  <section class="hero-bg d-flex flex-column justify-content-center align-items-center">
+    <div class="container text-center">
+      <h1 class="hero-title mb-2">ConectaFrontera</h1>
+      <h4 class="mb-4 fw-semibold">Iniciar Sesión</h4>
+      <div class="login-card">
+        <form id="loginFormViajero" autocomplete="off">
+          <input type="text" id="usuario" class="form-control" placeholder="Usuario" required>
+          <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required>
+          <button type="submit" class="btn btn-login mt-2">Iniciar Sesión</button>
+          <div id="error" class="text-danger mt-2 d-none">Usuario o contraseña incorrectos.</div>
+          <div id="denegado" class="text-danger mt-2 d-none">Acceso denegado: solo para viajeros.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-bg pt-5 pb-3 mt-5">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-12 col-md-3 mb-4 mb-md-0 d-flex align-items-center">
+          <div class="footer-icons">
+            <a href="#"><i class="bi bi-twitter-x"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="col-12 col-md-3 mb-4 mb-md-0">
+          <div class="footer-section-title">Nuestros Servicios</div>
+          <ul class="footer-list">
+            <li>Autorización de menores</li>
+            <li>Trámites vehiculares</li>
+            <li>Declaración de alimentos</li>
+            <li>Declaración de mascotas</li>
+            <li>Estadísticas de flujo y demoras</li>
+            <li>Autoservicio web/móvil</li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-3 mb-4 mb-md-0">
+          <div class="footer-section-title">Otros Accesos Directos</div>
+          <ul class="footer-list">
+            <li>Quienes Somos</li>
+            <li>Trabaja con Nosotros</li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-3 text-md-end">
+          <img src="assets/images/logo-gobierno-chile.png" alt="Gobierno de Chile" class="footer-logo mb-2"><br>
+          <img src="assets/images/logo-aduanas-chile.png" alt="Aduanas Chile" class="footer-logo mb-2">
+        </div>
+      </div>
+      <div class="text-center small text-muted">
+        &copy; 2024 ConectaFrontera. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/signin.js"></script>
+</body>
+</html>

@@ -4,64 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pre-registro de Documentos - ConectaFrontera</title>
-    <!-- Enlace a Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/viajero.js" defer></script> <!-- Vínculo con el archivo JS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="js/viajero.js" defer></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f6f9fc; }
+        .hero-bg { background: #428bca; color: #fff; padding: 3rem 0 2rem 0; }
+        .hero-title { font-size: 2.2rem; font-weight: 700; }
+        .form-card {
+            background: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        .form-control, .form-select {
+            border-radius: 1rem;
+            background: #f8fafc;
+            border: 1px solid #e7eaf3;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.1);
+        }
+        .btn-primary {
+            border-radius: 1.5rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px 0 rgba(13,110,253,0.07);
+        }
+        .footer-bg { background: #f8f9fa; }
+        .footer-logo { max-width: 120px; }
+        .footer-icons a { color: #333; margin-right: 10px; font-size: 1.3rem; }
+        .footer-section-title { font-weight: 600; margin-bottom: 0.5rem; }
+        .footer-list { list-style: none; padding-left: 0; }
+        .footer-list li { margin-bottom: 0.3rem; }
+        .navbar-brand { font-weight: 700; }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.5rem; }
+            .form-card { padding: 1.5rem 1rem; }
+        }
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <!-- Header -->
-        <header class="text-center my-4">
-            <h1 class="display-4 text-primary">Pre-registro de Documentos</h1>
-            <p class="lead">Por favor, complete los siguientes campos para registrar sus documentos.</p>
-        </header>
-
-        <!-- Formulario de Pre-registro -->
-        <form id="formPreRegistro" class="bg-white p-5 rounded shadow-sm">
-            <div class="form-group">
-                <label for="tipoDocumento">Tipo de Documento</label>
-                <select id="tipoDocumento" name="tipoDocumento" class="form-control" required>
-                    <option value="">Seleccione el tipo de documento</option>
-                    <option value="Pasaporte">Pasaporte</option>
-                    <option value="Cédula">Cédula</option>
-                    <!-- Otros tipos de documentos pueden ser añadidos aquí -->
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="numeroDocumento">Número de Documento</label>
-                <input type="text" id="numeroDocumento" name="numeroDocumento" placeholder="Ingrese el número de su documento" class="form-control" required>
-            </div>
-
-            <div class="form-group">
-                <label for="fechaEmision">Fecha de Emisión</label>
-                <input type="date" id="fechaEmision" name="fechaEmision" class="form-control" required>
-            </div>
-
-            <div class="form-group">
-                <label for="fechaVencimiento">Fecha de Vencimiento</label>
-                <input type="date" id="fechaVencimiento" name="fechaVencimiento" class="form-control" required>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Registrar Documentos</button>
-            </div>
-        </form>
-
-        <!-- Notificaciones -->
-        <div id="notifications" class="mt-4">
-            <div id="notificacion1" class="alert alert-success d-none">
-                <p>Tu trámite ha sido registrado exitosamente.</p>
-            </div>
-            <div id="notificacion2" class="alert alert-warning d-none">
-                <p>Falta un documento. Por favor, revisa tu información.</p>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">ConectaFrontera</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="home.html#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.html#servicios">Servicios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.html#tramites">Trámites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.html#estadisticas">Estadísticas</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- Scripts de Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Hero -->
+    <section class="hero-bg text-center">
+        <div class="container">
+            <h1 class="hero-title mb-2">Pre-registro de Documentos</h1>
+            <p class="lead mb-0">Por favor, complete los siguientes campos para registrar sus documentos.</p>
+        </div>
+    </section>
+
+    <!-- Formulario de Pre-registro -->
+    <section class="py-5">
+        <div class="container">
+            <form id="formPreRegistro" class="form-card">
+                <div class="mb-3">
+                    <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                    <select id="tipoDocumento" name="tipoDocumento" class="form-select" required>
+                        <option value="">Seleccione el tipo de documento</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                        <option value="Cédula">Cédula</option>
+                        <!-- Otros tipos de documentos pueden ser añadidos aquí -->
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="numeroDocumento" class="form-label">Número de Documento</label>
+                    <input type="text" id="numeroDocumento" name="numeroDocumento" placeholder="Ingrese el número de su documento" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaEmision" class="form-label">Fecha de Emisión</label>
+                    <input type="date" id="fechaEmision" name="fechaEmision" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento</label>
+                    <input type="date" id="fechaVencimiento" name="fechaVencimiento" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary w-100">Registrar Documentos</button>
+                </div>
+            </form>
+
+            <!-- Notificaciones -->
+            <div id="notifications" class="mt-4">
+                <div id="notificacion1" class="alert alert-success d-none">
+                    <p>Tu trámite ha sido registrado exitosamente.</p>
+                </div>
+                <div id="notificacion2" class="alert alert-warning d-none">
+                    <p>Falta un documento. Por favor, revisa tu información.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-bg pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12 col-md-3 mb-4 mb-md-0 d-flex align-items-center">
+                    <div class="footer-icons">
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <div class="footer-section-title">Nuestros Servicios</div>
+                    <ul class="footer-list">
+                        <li>Autorización de menores</li>
+                        <li>Trámites vehiculares</li>
+                        <li>Declaración de alimentos</li>
+                        <li>Declaración de mascotas</li>
+                        <li>Estadísticas de flujo y demoras</li>
+                        <li>Autoservicio web/móvil</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <div class="footer-section-title">Otros Accesos Directos</div>
+                    <ul class="footer-list">
+                        <li>Quienes Somos</li>
+                        <li>Trabaja con Nosotros</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 text-md-end">
+                    <img src="assets/images/logo-gobierno-chile.png" alt="Gobierno de Chile" class="footer-logo mb-2"><br>
+                    <img src="assets/images/logo-aduanas-chile.png" alt="Aduanas Chile" class="footer-logo mb-2">
+                </div>
+            </div>
+            <div class="text-center small text-muted">
+                &copy; 2024 ConectaFrontera. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
