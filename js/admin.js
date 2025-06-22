@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const rol = localStorage.getItem("rol");
 
+  // Validación de sesión y rol
   if (!token || rol !== "ADMINISTRADOR") {
-    window.location.href = "../src/login.html";
+    window.location.href = "login.html";
     return;
   }
 
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.clear();
-    window.location.href = "../src/login.html";
+    window.location.href = "login.html";
   });
 });
 
@@ -22,33 +23,43 @@ async function cargarUsuarios() {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-      credentials: "include", // 🔥 Necesario para CORS + token
+      }
     });
+
+    if (res.status === 401 || res.status === 403) {
+      alert("Sesión expirada o sin permisos. Inicia sesión nuevamente.");
+      localStorage.clear();
+      window.location.href = "login.html";
+      return;
+    }
 
     if (!res.ok) {
       throw new Error("Error al obtener usuarios");
     }
 
     const usuarios = await res.json();
-    const container = document.getElementById("usuariosContainer");
-    container.innerHTML = "";
+    const tbody = document.getElementById("usuariosTableBody");
+    tbody.innerHTML = "";
 
     usuarios.forEach((usuario) => {
-      const div = document.createElement("div");
-      div.className =
-        "bg-white rounded shadow p-4 border border-gray-200";
-      div.innerHTML = `
-  <p><strong>ID:</strong> ${usuario.idUsuario}</p>
-  <p><strong>Nombre:</strong> ${usuario.nombre}</p>
-  <p><strong>Correo:</strong> ${usuario.correo}</p>
-  <p><strong>Rol:</strong> ${usuario.rol}</p>
-  <div class="mt-2 flex gap-2">
-    <button onclick="eliminarUsuario(${usuario.idUsuario})" class="bg-red-500 text-black px-2 py-1 rounded text-sm">Eliminar</button>
-    <button onclick="mostrarFormularioEditar(${usuario.idUsuario}, '${usuario.nombre}', '${usuario.correo}', '${usuario.rol}')" class="bg-yellow-500 text-black px-2 py-1 rounded text-sm">Editar</button>
-  </div>
-`;
-      container.appendChild(div);
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${usuario.idUsuario}</td>
+        <td>${usuario.nombre}</td>
+        <td>${usuario.correo}</td>
+        <td>${usuario.rol}</td>
+        <td class="text-center">
+          <button type="button" class="btn btn-warning btn-sm text-white me-2"
+            onclick="mostrarFormularioEditar(${usuario.idUsuario}, '${usuario.nombre.replace(/'/g, "\\'")}', '${usuario.correo.replace(/'/g, "\\'")}', '${usuario.rol}')">
+            Editar
+          </button>
+          <button type="button" class="btn btn-danger btn-sm"
+            onclick="eliminarUsuario(${usuario.idUsuario})">
+            Eliminar
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
     });
   } catch (error) {
     console.error("Error cargando usuarios:", error);
@@ -65,6 +76,9 @@ document.getElementById("formNuevoUsuario").addEventListener("submit", async (e)
   const rol = document.getElementById("nuevoRol").value;
 
   try {
+    // Debug: muestra el token y el header Authorization
+    // console.log("Token usado:", localStorage.getItem("token"));
+
     const res = await fetch("http://localhost:8080/api/usuarios", {
       method: "POST",
       headers: {
@@ -73,6 +87,13 @@ document.getElementById("formNuevoUsuario").addEventListener("submit", async (e)
       },
       body: JSON.stringify({ nombre, correo, contrasena, rol }),
     });
+
+    if (res.status === 401 || res.status === 403) {
+      alert("Sesión expirada o sin permisos. Inicia sesión nuevamente.");
+      localStorage.clear();
+      window.location.href = "login.html";
+      return;
+    }
 
     if (!res.ok) throw new Error("No se pudo registrar el usuario");
 
@@ -85,7 +106,8 @@ document.getElementById("formNuevoUsuario").addEventListener("submit", async (e)
   }
 });
 
-async function eliminarUsuario(id) {
+// Hacer global para el HTML dinámico
+window.eliminarUsuario = async function(id) {
   if (!confirm("¿Estás seguro de eliminar este usuario?")) return;
 
   try {
@@ -96,6 +118,13 @@ async function eliminarUsuario(id) {
       },
     });
 
+    if (res.status === 401 || res.status === 403) {
+      alert("Sesión expirada o sin permisos. Inicia sesión nuevamente.");
+      localStorage.clear();
+      window.location.href = "login.html";
+      return;
+    }
+
     if (!res.ok) throw new Error("Error al eliminar");
 
     alert("Usuario eliminado correctamente");
@@ -104,24 +133,27 @@ async function eliminarUsuario(id) {
     console.error("Error al eliminar:", err);
     alert("No se pudo eliminar el usuario.");
   }
-}
+};
 
-function mostrarFormularioEditar(id, nombre, correo, rol) {
-  document.getElementById("editarIdUsuario").value = id;
-  document.getElementById("editarNombre").value = nombre;
-  document.getElementById("editarCorreo").value = correo;
-  document.getElementById("editarRol").value = rol;
-  document.getElementById("editarUsuarioSection").classList.remove("hidden");
-}
+// Mostrar modal para editar usuario
+window.mostrarFormularioEditar = function(id, nombre, correo, rol) {
+  document.getElementById("editarIdUsuarioModal").value = id;
+  document.getElementById("editarNombreModal").value = nombre;
+  document.getElementById("editarCorreoModal").value = correo;
+  document.getElementById("editarRolModal").value = rol;
+  document.getElementById("editarContrasenaModal").value = "";
+  const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal'));
+  modal.show();
+};
 
-document.getElementById("formEditarUsuario").addEventListener("submit", async (e) => {
+document.getElementById("formEditarUsuarioModal").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const id = document.getElementById("editarIdUsuario").value;
-  const nombre = document.getElementById("editarNombre").value.trim();
-  const correo = document.getElementById("editarCorreo").value.trim();
-  const contrasena = document.getElementById("editarContrasena").value.trim();
-  const rol = document.getElementById("editarRol").value;
+  const id = document.getElementById("editarIdUsuarioModal").value;
+  const nombre = document.getElementById("editarNombreModal").value.trim();
+  const correo = document.getElementById("editarCorreoModal").value.trim();
+  const contrasena = document.getElementById("editarContrasenaModal").value.trim();
+  const rol = document.getElementById("editarRolModal").value;
 
   try {
     const res = await fetch(`http://localhost:8080/api/usuarios/${id}`, {
@@ -133,11 +165,19 @@ document.getElementById("formEditarUsuario").addEventListener("submit", async (e
       body: JSON.stringify({ nombre, correo, rol, contrasena }),
     });
 
+    if (res.status === 401 || res.status === 403) {
+      alert("Sesión expirada o sin permisos. Inicia sesión nuevamente.");
+      localStorage.clear();
+      window.location.href = "login.html";
+      return;
+    }
+
     if (!res.ok) throw new Error("Error al actualizar");
 
     alert("Usuario actualizado correctamente");
-    document.getElementById("formEditarUsuario").reset();
-    document.getElementById("editarUsuarioSection").classList.add("hidden");
+    document.getElementById("formEditarUsuarioModal").reset();
+    const modal = bootstrap.Modal.getInstance(document.getElementById('editarUsuarioModal'));
+    modal.hide();
     cargarUsuarios();
   } catch (err) {
     console.error("Error al actualizar:", err);

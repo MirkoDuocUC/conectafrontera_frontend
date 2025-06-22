@@ -17,11 +17,15 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     }
 
     const data = await res.json();
+    console.log("Respuesta completa:", data); // <-- Esto imprime todo el objeto recibido
     localStorage.setItem("token", data.token);
     localStorage.setItem("rol", data.rol);
+    console.log("Rol recibido:", data.rol);
+
+    const rol = (data.rol || "").toUpperCase().trim();
 
     // Redirección basada en rol
-    switch (data.rol) {
+    switch (rol) {
       case "ADMINISTRADOR":
         window.location.href = "admin.html";
         break;
@@ -30,6 +34,9 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         break;
       case "INSPECTOR_SAG":
         window.location.href = "sag.html";
+        break;
+      case "VIAJERO":
+        window.location.href = "viajero.html";
         break;
       default:
         window.location.href = "perfil.html";
