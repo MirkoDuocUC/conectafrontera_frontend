@@ -9,90 +9,125 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-      body { font-family: 'Inter', sans-serif; }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Evita scroll vertical */
+        font-family: 'Inter', sans-serif;
+      }
+      .registro-img-side {
+        height: 100vh;
+        width: 80%; /* Aplasta la imagen a la derecha */
+        object-fit: cover;
+        object-position: right;
+        border-radius: 0;
+        display: block;
+        margin-left: auto; /* Pegada a la derecha */
+      }
+      @media (max-width: 991.98px) {
+        .registro-img-side {
+          display: none;
+        }
+      }
+      .registro-container {
+        height: 100vh;
+        min-height: 100vh;
+        overflow: hidden;
+      }
     </style>
   </head>
-  <body class="bg-light d-flex align-items-center justify-content-center min-vh-100">
-    <div class="bg-white p-4 rounded-4 shadow w-100" style="max-width: 400px; border: 1px solid #e7f1ff;">
-      <div class="d-flex flex-column align-items-center mb-4">
-        <!-- Logo ejemplo, reemplaza src por tu logo -->
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Logo_UNSOF.png" alt="Logo" class="mb-2 rounded-circle shadow" style="width: 64px; height: 64px;" />
-        <h1 class="fs-3 fw-bold text-primary mb-1">Crear cuenta</h1>
-        <p class="text-secondary small">Completa los datos para registrarte</p>
-      </div>
-      <form id="registerForm">
-        <div class="mb-3">
-          <label for="nombre" class="form-label">Nombre completo</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white text-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </span>
-            <input
-              type="text"
-              id="nombre"
-              placeholder="Nombre completo"
-              class="form-control"
-              required
-            />
+  <body class="bg-light">
+    <!-- Botón volver al home -->
+    <a href="home.html" class="position-absolute top-0 start-0 m-3 btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center"
+       style="width: 44px; height: 44px; z-index: 10;" title="Volver al inicio">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </a>
+    <div class="container-fluid registro-container">
+      <div class="row h-100 align-items-center">
+        <!-- Formulario desplazado a la derecha pero no pegado -->
+        <div class="col-12 col-md-5 col-lg-4 offset-md-1 offset-lg-2 d-flex align-items-center justify-content-center" style="height: 100vh;">
+          <div class="bg-white p-4 rounded-4 shadow w-100" style="max-width: 400px; border: 1px solid #e7f1ff;">
+            <div class="d-flex flex-column align-items-center mb-4">
+              <img 
+                src="assets/images/logo_conectafrontera_solologo-removebg-preview.png" 
+                alt="Logo ConectaFrontera"
+                class="mb-2 rounded-circle shadow"
+                style="width: 48px; height: 48px; object-fit: contain;"
+              />
+              <h1 class="fs-3 fw-bold text-primary mb-1">Crear cuenta</h1>
+              <p class="text-secondary small">Completa los datos para registrarte</p>
+            </div>
+            <form id="registerForm">
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre completo</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  </span>
+                  <input
+                    type="text"
+                    id="nombre"
+                    placeholder="Nombre completo"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0zm0 0v1a4 4 0 01-8 0v-1"/></svg>
+                  </span>
+                  <input
+                    type="email"
+                    id="correo"
+                    placeholder="Correo electrónico"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="contrasena" class="form-label">Contraseña</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-7a2 2 0 00-2-2h-1V7a5 5 0 00-10 0v3H6a2 2 0 00-2 2v7a2 2 0 002 2z"/></svg>
+                  </span>
+                  <input
+                    type="password"
+                    id="contrasena"
+                    placeholder="Contraseña"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <!-- Campo oculto para el rol -->
+              <input type="hidden" id="rol" value="VIAJERO" />
+              <button
+                type="submit"
+                class="btn btn-primary w-100 fw-semibold shadow-sm"
+              >
+                Registrarse
+              </button>
+            </form>
+            <p id="error" class="text-danger mt-3 text-center d-none small">
+              Error al registrar. Intenta con otro correo.
+            </p>
+            <div class="mt-4 text-center">
+              <span class="text-secondary small">¿Ya tienes cuenta?</span>
+              <a href="login.html" class="text-primary fw-semibold text-decoration-none ms-1">Inicia sesión</a>
+            </div>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="correo" class="form-label">Correo electrónico</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white text-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0zm0 0v1a4 4 0 01-8 0v-1"/></svg>
-            </span>
-            <input
-              type="email"
-              id="correo"
-              placeholder="Correo electrónico"
-              class="form-control"
-              required
-            />
-          </div>
+        <!-- Imagen a la derecha, aplastada -->
+        <div class="d-none d-md-block col-md-6 col-lg-6 col-xl-6 p-0" style="height: 100vh;">
+          <img src="assets/images/imagen_fondo.png" alt="Imagen decorativa" class="registro-img-side">
         </div>
-        <div class="mb-3">
-          <label for="contrasena" class="form-label">Contraseña</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white text-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-7a2 2 0 00-2-2h-1V7a5 5 0 00-10 0v3H6a2 2 0 00-2 2v7a2 2 0 002 2z"/></svg>
-            </span>
-            <input
-              type="password"
-              id="contrasena"
-              placeholder="Contraseña"
-              class="form-control"
-              required
-            />
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="rol" class="form-label">Rol</label>
-          <select
-            id="rol"
-            class="form-select"
-            required
-          >
-            <option value="" disabled selected>Selecciona un rol</option>
-            <option value="ADMINISTRADOR">Administrador</option>
-            <option value="FUNCIONARIO_ADUANA">Funcionario Aduana</option>
-            <option value="INSPECTOR_SAG">Inspector SAG</option>
-            <option value="VIAJERO">Viajero</option>
-          </select>
-        </div>
-        <button
-          type="submit"
-          class="btn btn-primary w-100 fw-semibold shadow-sm"
-        >
-          Registrarse
-        </button>
-      </form>
-      <p id="error" class="text-danger mt-3 text-center d-none small">
-        Error al registrar. Intenta con otro correo.
-      </p>
-      <div class="mt-4 text-center">
-        <span class="text-secondary small">¿Ya tienes cuenta?</span>
-        <a href="login.html" class="text-primary fw-semibold text-decoration-none ms-1">Inicia sesión</a>
       </div>
     </div>
     <script type="module" src="./js/register.js"></script>

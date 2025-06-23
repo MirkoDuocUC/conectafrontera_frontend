@@ -128,6 +128,32 @@
             <option value="VIAJERO">Viajero</option>
           </select>
         </div>
+        <!-- Campo extra para tipo de funcionario aduana -->
+        <div class="mb-3" id="tipoFuncionarioContainer" style="display:none;">
+          <select id="tipoFuncionario" class="form-select">
+            <option value="" disabled selected>Selecciona tipo de funcionario</option>
+            <option value="REVISOR_DOCUMENTAL">Revisor Documental</option>
+            <option value="SUPERVISOR_DIA">Supervisor Turno Día</option>
+            <option value="SUPERVISOR_NOCHE">Supervisor Turno Noche</option>
+          </select>
+        </div>
+        <!-- Campo extra para tipo de inspector SAG -->
+        <div class="mb-3" id="tipoInspectorContainer" style="display:none;">
+          <select id="tipoInspector" class="form-select">
+            <option value="" disabled selected>Selecciona tipo de inspector</option>
+            <option value="PCR">Inspector de Control de Residuos (PCR)</option>
+            <option value="MICROBIOLOGICO">Inspector de Control Microbiológico</option>
+            <option value="VETERINARIO">Inspector Médico Veterinario</option>
+          </select>
+        </div>
+        <!-- Campo extra para nivel de permiso del administrador -->
+        <div class="mb-3" id="nivelPermisoContainer" style="display:none;">
+          <select id="nivelPermiso" class="form-select">
+            <option value="" disabled selected>Selecciona nivel de permiso</option>
+            <option value="ALTO">ALTO</option>
+            <option value="MEDIO">MEDIO</option>
+          </select>
+        </div>
         <button type="submit" class="btn btn-primary w-100 fw-semibold shadow-sm py-2">Registrar</button>
       </form>
     </section>
@@ -191,6 +217,59 @@
   <!-- Bootstrap JS Bundle CDN (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/admin.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Mostrar campo extra solo si el rol es INSPECTOR_SAG
+      const rolSelect = document.getElementById("nuevoRol");
+      const tipoInspectorContainer = document.getElementById("tipoInspectorContainer");
+      const tipoInspector = document.getElementById("tipoInspector");
+      const tipoFuncionarioContainer = document.getElementById("tipoFuncionarioContainer");
+      const tipoFuncionario = document.getElementById("tipoFuncionario");
+      const nivelPermisoContainer = document.getElementById("nivelPermisoContainer");
+      const nivelPermisoInput = document.getElementById("nivelPermiso");
+
+      rolSelect.addEventListener("change", function() {
+        if (this.value === "INSPECTOR_SAG") {
+          tipoInspectorContainer.style.display = "";
+          tipoInspector.required = true;
+          tipoFuncionarioContainer.style.display = "none";
+          tipoFuncionario.required = false;
+          tipoFuncionario.value = "";
+          nivelPermisoContainer.style.display = "none";
+          nivelPermisoInput.required = false;
+          nivelPermisoInput.value = "";
+        } else if (this.value === "FUNCIONARIO_ADUANA") {
+          tipoFuncionarioContainer.style.display = "";
+          tipoFuncionario.required = true;
+          tipoInspectorContainer.style.display = "none";
+          tipoInspector.required = false;
+          tipoInspector.value = "";
+          nivelPermisoContainer.style.display = "none";
+          nivelPermisoInput.required = false;
+          nivelPermisoInput.value = "";
+        } else if (this.value === "ADMINISTRADOR") {
+          nivelPermisoContainer.style.display = "";
+          nivelPermisoInput.required = true;
+          tipoInspectorContainer.style.display = "none";
+          tipoInspector.required = false;
+          tipoInspector.value = "";
+          tipoFuncionarioContainer.style.display = "none";
+          tipoFuncionario.required = false;
+          tipoFuncionario.value = "";
+        } else {
+          tipoInspectorContainer.style.display = "none";
+          tipoInspector.required = false;
+          tipoInspector.value = "";
+          tipoFuncionarioContainer.style.display = "none";
+          tipoFuncionario.required = false;
+          tipoFuncionario.value = "";
+          nivelPermisoContainer.style.display = "none";
+          nivelPermisoInput.required = false;
+          nivelPermisoInput.value = "";
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

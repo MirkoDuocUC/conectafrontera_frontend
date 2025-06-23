@@ -14,6 +14,22 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.clear();
     window.location.href = "login.html";
   });
+
+  // Mostrar campo extra solo si el rol es INSPECTOR_SAG
+  const rolSelect = document.getElementById("nuevoRol");
+  const tipoInspectorContainer = document.getElementById("tipoInspectorContainer");
+  const tipoInspector = document.getElementById("tipoInspector");
+
+  rolSelect.addEventListener("change", function() {
+    if (this.value === "INSPECTOR_SAG") {
+      tipoInspectorContainer.style.display = "";
+      tipoInspector.required = true;
+    } else {
+      tipoInspectorContainer.style.display = "none";
+      tipoInspector.required = false;
+      tipoInspector.value = "";
+    }
+  });
 });
 
 async function cargarUsuarios() {
@@ -74,18 +90,50 @@ document.getElementById("formNuevoUsuario").addEventListener("submit", async (e)
   const correo = document.getElementById("nuevoCorreo").value.trim();
   const contrasena = document.getElementById("nuevaContrasena").value.trim();
   const rol = document.getElementById("nuevoRol").value;
+  const tipoInspector = document.getElementById("tipoInspector") ? document.getElementById("tipoInspector").value : "";
+  const tipoFuncionario = document.getElementById("tipoFuncionario") ? document.getElementById("tipoFuncionario").value : "";
+  const nivelPermiso = document.getElementById("nivelPermiso") ? document.getElementById("nivelPermiso").value : "";
+
+  let endpoint = "";
+  let body = {};
+
+  if (rol === "FUNCIONARIO_ADUANA") {
+    if (!tipoFuncionario) {
+      alert("Debes seleccionar el tipo de funcionario aduana.");
+      return;
+    }
+    endpoint = "http://localhost:8080/api/funcionarios-aduana";
+    body = { nombre, correo, contrasena, puesto: tipoFuncionario };
+  } else if (rol === "INSPECTOR_SAG") {
+    if (!tipoInspector) {
+      alert("Debes seleccionar el tipo de inspector SAG.");
+      return;
+    }
+    endpoint = "http://localhost:8080/api/inspectores";
+    body = { nombre, correo, contrasena, especialidad: tipoInspector };
+  } else if (rol === "VIAJERO") {
+    endpoint = "http://localhost:8080/api/viajeros";
+    body = { nombre, correo, contrasena };
+  } else if (rol === "ADMINISTRADOR") {
+    if (!nivelPermiso) {
+      alert("Debes ingresar el nivel de permiso del administrador.");
+      return;
+    }
+    endpoint = "http://localhost:8080/api/administradores";
+    body = { nombre, correo, contrasena, nivelPermiso };
+  } else {
+    alert("Rol no válido.");
+    return;
+  }
 
   try {
-    // Debug: muestra el token y el header Authorization
-    // console.log("Token usado:", localStorage.getItem("token"));
-
-    const res = await fetch("http://localhost:8080/api/usuarios", {
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
-      body: JSON.stringify({ nombre, correo, contrasena, rol }),
+      body: JSON.stringify(body),
     });
 
     if (res.status === 401 || res.status === 403) {
@@ -99,6 +147,15 @@ document.getElementById("formNuevoUsuario").addEventListener("submit", async (e)
 
     alert("Usuario registrado correctamente");
     document.getElementById("formNuevoUsuario").reset();
+    if (document.getElementById("tipoInspectorContainer")) {
+      document.getElementById("tipoInspectorContainer").style.display = "none";
+    }
+    if (document.getElementById("tipoFuncionarioContainer")) {
+      document.getElementById("tipoFuncionarioContainer").style.display = "none";
+    }
+    if (document.getElementById("nivelPermisoContainer")) {
+      document.getElementById("nivelPermisoContainer").style.display = "none";
+    }
     cargarUsuarios();
   } catch (err) {
     console.error("Error al registrar:", err);

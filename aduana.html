@@ -2,99 +2,302 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ConectaFrontera - Funcionario Aduana</title>
-  <link href="../dist/output.css" rel="stylesheet" />
-  <script type="module" src="../js/auth.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Validación de Documentos - Funcionario Aduana</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f6f9fc; }
+    .main-title { font-size: 2rem; font-weight: 600; color: #0d2956; }
+    .sidebar {
+      background: #0d2956;
+      color: #fff;
+      min-height: 100vh;
+      padding-top: 2rem;
+    }
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .sidebar .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .sidebar .sidebar-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .sidebar .user-info {
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .sidebar .nav-link {
+      color: #c7d6f3;
+      border-radius: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background: #1a3a6b;
+      color: #fff;
+    }
+    .logout-btn {
+      margin-top: auto;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 991px) {
+      .sidebar { min-height: auto; padding-top: 1rem; }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
-
-  <div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-blue-900 text-white flex flex-col">
-      <div class="p-4 flex items-center justify-center text-xl font-bold border-b border-blue-700">
-        <span>ConectaFrontera</span>
-      </div>
-      <div class="p-4 border-b border-blue-700">
-        <div class="text-sm font-medium">Mirko Pino</div>
-        <div class="text-xs text-blue-200">Funcionario Aduana</div>
-      </div>
-      <nav class="flex-1 p-4 space-y-2">
-        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded bg-blue-800 hover:bg-blue-700">
-          📊 <span>Dashboard</span>
-        </a>
-        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-700">
-          📄 <span>Validación Masiva</span>
-        </a>
-        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-700">
-          👶 <span>Menores de Edad</span>
-        </a>
-        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-700">
-          🚗 <span>Vehículos</span>
-        </a>
-        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-700">
-          🍎 <span>Declaraciones</span>
-        </a>
-        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-700">
-          📑 <span>Reportes</span>
-        </a>
-        <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-700">
-          ⚙️ <span>Configuración</span>
-        </a>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-6 space-y-6">
-      <header class="flex justify-between items-center">
-        <h1 class="text-2xl font-semibold">Validación Masiva de Documentos</h1>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Nuevo Lote</button>
-      </header>
-
-      <!-- Resumen -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded shadow">
-          <p class="text-sm text-gray-500">DOCUMENTOS HOY</p>
-          <h2 class="text-2xl font-bold">124</h2>
-          <p class="text-xs text-green-500">+12% vs ayer</p>
+<body>
+  <div class="container-fluid">
+    <div class="row min-vh-100">
+      <!-- Sidebar -->
+      <aside class="col-lg-3 col-xl-2 sidebar d-flex flex-column">
+        <div class="logo mb-3">
+          <img src="assets/images/logo_conectafrontera_solologo-removebg-preview.png" alt="Logo" />
+          <span class="sidebar-title">ConectaFrontera</span>
         </div>
-        <div class="bg-white p-4 rounded shadow">
-          <p class="text-sm text-gray-500">VALIDADOS</p>
-          <h2 class="text-2xl font-bold">98</h2>
-          <p class="text-xs text-green-500">+8% vs ayer</p>
+        <div class="user-info mb-4">
+          <div class="fw-semibold" id="sidebar-username">Usuario</div>
+          <div class="text-info small" id="sidebar-rol">Funcionario Aduana</div>
         </div>
-        <div class="bg-white p-4 rounded shadow">
-          <p class="text-sm text-gray-500">RECHAZADOS</p>
-          <h2 class="text-2xl font-bold">14</h2>
-          <p class="text-xs text-red-500">-3% vs ayer</p>
+        <nav class="nav flex-column mb-4" id="sidebar-nav">
+          <a href="#" class="nav-link active" data-section="documentos"><i class="bi bi-bar-chart-fill me-2"></i>Dashboard</a>
+          <a href="#" class="nav-link" data-section="documentos"><i class="bi bi-file-earmark-spreadsheet me-2"></i>Validación Masiva</a>
+          <a href="#" class="nav-link" data-section="menores"><i class="bi bi-person-badge me-2"></i>Menores de Edad</a>
+          <a href="#" class="nav-link" data-section="vehiculos"><i class="bi bi-truck me-2"></i>Vehículos</a>
+          <a href="#" class="nav-link" data-section="declaraciones"><i class="bi bi-clipboard-data me-2"></i>Declaraciones</a>
+          <a href="#" class="nav-link" data-section="reportes"><i class="bi bi-journal-text me-2"></i>Reportes</a>
+          <a href="#" class="nav-link" data-section="configuracion"><i class="bi bi-gear me-2"></i>Configuración</a>
+        </nav>
+        <button id="logoutBtn" class="btn btn-outline-light logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</button>
+      </aside>
+      <!-- Main Content -->
+      <main class="col-lg-9 col-xl-10 py-4 px-4">
+        <div class="container-fluid">
+          <!-- Sección Documentos -->
+          <section id="section-documentos">
+            <h2 class="main-title mb-4">Validación de Documentos</h2>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle bg-white">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Tipo de Documento</th>
+                    <th>Número</th>
+                    <th>Fecha de emisión</th>
+                    <th>Fecha de vencimiento</th>
+                    <th>Acciones</th>
+                    <th>Comentario</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-documentos">
+                  <!-- Los documentos se insertarán aquí dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <!-- Sección Vehículos -->
+          <section id="section-vehiculos" style="display:none;">
+            <h2 class="main-title mb-4">Vehículos</h2>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle bg-white">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Patente</th>
+                    <th>Tipo</th>
+                    <th>Fecha de ingreso</th>
+                    <th>Salida estimada</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="vehiculosTableBody">
+                  <!-- Los vehículos se insertarán aquí dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <!-- Sección Declaraciones -->
+          <section id="section-declaraciones" style="display:none;">
+            <h2 class="main-title mb-4">Declaraciones Juradas</h2>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle bg-white">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Estado</th>
+                    <th>Id Viajero</th>
+                    <th>Nombre Viajero</th>
+                  </tr>
+                </thead>
+                <tbody id="declaracionesTableBody">
+                  <!-- Las declaraciones se insertarán aquí dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <!-- Sección Reportes -->
+          <section id="section-reportes" style="display:none;">
+            <h2 class="main-title mb-4">Reportes Estadísticos</h2>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle bg-white">
+                <thead>
+                  <tr>
+                    <th>Id Reporte</th>
+                    <th>Tipo</th>
+                    <th>Fecha de Generación</th>
+                  </tr>
+                </thead>
+                <tbody id="reportesTableBody">
+                  <!-- Los reportes se insertarán aquí dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <!-- Sección Menores de Edad -->
+          <section id="section-menores" style="display:none;">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px;">
+              <i class="bi bi-slash-circle text-danger" style="font-size: 3rem;"></i>
+              <div class="mt-3 fs-5 fw-semibold text-danger text-center">Sección en mantención</div>
+            </div>
+          </section>
+          <!-- Sección Configuración -->
+          <section id="section-configuracion" style="display:none;">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px;">
+              <i class="bi bi-slash-circle text-danger" style="font-size: 3rem;"></i>
+              <div class="mt-3 fs-5 fw-semibold text-danger text-center">Sección en mantención</div>
+            </div>
+          </section>
         </div>
-        <div class="bg-white p-4 rounded shadow">
-          <p class="text-sm text-gray-500">TIEMPO PROMEDIO</p>
-          <h2 class="text-2xl font-bold">1.2s</h2>
-          <p class="text-xs text-green-500">+25% más rápido</p>
-        </div>
-      </section>
-
-      <!-- Carga -->
-      <section class="bg-white p-6 rounded shadow">
-        <h2 class="text-lg font-semibold mb-4">Cargar Documentos para Validación Masiva</h2>
-        <div class="border-2 border-dashed border-gray-300 rounded h-32 flex items-center justify-center text-gray-400">
-          Arrastra aquí tu archivo CSV o Excel
-        </div>
-        <div class="mt-4 flex justify-between items-center">
-          <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Validar Documentos (124)</button>
-          <button class="flex items-center gap-2 text-blue-600 hover:underline">
-            ⬇️ Descargar Plantilla
-          </button>
-        </div>
-      </section>
-    </main>
+      </main>
+    </div>
   </div>
 
-  <script type="module">
-    import { verificarAutenticacion } from "../js/auth.js";
-    verificarAutenticacion(["FUNCIONARIO_ADUANA"]);
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/aduana.js"></script>
+  <script>
+    // Mostrar nombre y rol en el sidebar si están en localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const username = localStorage.getItem("username") || "Usuario";
+      const rol = localStorage.getItem("rol") || "";
+      document.getElementById("sidebar-username").textContent = username;
+      document.getElementById("sidebar-rol").textContent = rol === "FUNCIONARIO_ADUANA" ? "Funcionario Aduana" : (rol === "INSPECTOR_SAG" ? "Inspector SAG" : "");
 
+      // Navegación entre secciones
+      const navLinks = document.querySelectorAll('#sidebar-nav .nav-link');
+      const sectionDocumentos = document.getElementById('section-documentos');
+      const sectionVehiculos = document.getElementById('section-vehiculos');
+      const sectionDeclaraciones = document.getElementById('section-declaraciones');
+      const sectionReportes = document.getElementById('section-reportes');
+      const sectionMenores = document.getElementById('section-menores');
+      const sectionConfiguracion = document.getElementById('section-configuracion');
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          navLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+          const section = this.getAttribute('data-section');
+          // Mostrar/ocultar secciones según el enlace
+          if (section === 'vehiculos') {
+            sectionDocumentos.style.display = 'none';
+            sectionVehiculos.style.display = '';
+            sectionDeclaraciones.style.display = 'none';
+            sectionReportes.style.display = 'none';
+            sectionMenores.style.display = 'none';
+            sectionConfiguracion.style.display = 'none';
+            // Llama a fetchVehiculos solo si la sección de vehículos es seleccionada
+            if (typeof fetchVehiculos === "function") fetchVehiculos();
+          } else if (section === 'documentos') {
+            sectionDocumentos.style.display = '';
+            sectionVehiculos.style.display = 'none';
+            sectionDeclaraciones.style.display = 'none';
+            sectionReportes.style.display = 'none';
+            sectionMenores.style.display = 'none';
+            sectionConfiguracion.style.display = 'none';
+            // Llama a fetchDocumentos solo si la sección de documentos es seleccionada
+            if (typeof fetchDocumentos === "function") fetchDocumentos();
+          } else if (section === 'declaraciones') {
+            sectionDocumentos.style.display = 'none';
+            sectionVehiculos.style.display = 'none';
+            sectionDeclaraciones.style.display = '';
+            sectionReportes.style.display = 'none';
+            sectionMenores.style.display = 'none';
+            sectionConfiguracion.style.display = 'none';
+            // Llama a fetchDeclaraciones solo si la sección de declaraciones es seleccionada
+            if (typeof fetchDeclaraciones === "function") fetchDeclaraciones();
+          } else if (section === 'reportes') {
+            sectionDocumentos.style.display = 'none';
+            sectionVehiculos.style.display = 'none';
+            sectionDeclaraciones.style.display = 'none';
+            sectionReportes.style.display = '';
+            sectionMenores.style.display = 'none';
+            sectionConfiguracion.style.display = 'none';
+            // Llama a fetchReportes solo si la sección de reportes es seleccionada
+            if (typeof fetchReportes === "function") fetchReportes();
+          } else if (section === 'menores') {
+            sectionDocumentos.style.display = 'none';
+            sectionVehiculos.style.display = 'none';
+            sectionDeclaraciones.style.display = 'none';
+            sectionReportes.style.display = 'none';
+            sectionMenores.style.display = '';
+            sectionConfiguracion.style.display = 'none';
+          } else if (section === 'configuracion') {
+            sectionDocumentos.style.display = 'none';
+            sectionVehiculos.style.display = 'none';
+            sectionDeclaraciones.style.display = 'none';
+            sectionReportes.style.display = 'none';
+            sectionMenores.style.display = 'none';
+            sectionConfiguracion.style.display = '';
+          } else {
+            // Oculta ambas secciones para otras opciones
+            sectionDocumentos.style.display = 'none';
+            sectionVehiculos.style.display = 'none';
+            sectionDeclaraciones.style.display = 'none';
+            sectionReportes.style.display = 'none';
+            sectionMenores.style.display = 'none';
+            sectionConfiguracion.style.display = 'none';
+          }
+        });
+      });
+
+      // Mostrar sección inicial según rol
+      if (rol === "INSPECTOR_SAG") {
+        sectionDocumentos.style.display = 'none';
+        sectionVehiculos.style.display = '';
+        // Activa el enlace de vehículos
+        navLinks.forEach(l => l.classList.remove('active'));
+        document.querySelector('[data-section="vehiculos"]').classList.add('active');
+      } else {
+        sectionDocumentos.style.display = '';
+        sectionVehiculos.style.display = 'none';
+        sectionDeclaraciones.style.display = 'none';
+        sectionReportes.style.display = 'none';
+        sectionMenores.style.display = 'none';
+        sectionConfiguracion.style.display = 'none';
+        navLinks.forEach(l => l.classList.remove('active'));
+        document.querySelector('[data-section="documentos"]').classList.add('active');
+      }
+
+      // Botón cerrar sesión
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          localStorage.clear();
+          window.location.href = "login.html";
+        });
+      }
+    });
+  </script>
 </body>
 </html>
